@@ -6,7 +6,7 @@ Distribution of wealth globally, drawn from the Credit Suisse Global Wealth Data
 
 Every year since 2010, Credit Suisse (now UBS) has published a Global Wealth Report estimating how wealth is distributed across the world's adult population. The dataset covers the global wealth pyramid — how adults are distributed across four wealth bands — and country-level statistics for 20 major economies.
 
-The headline finding: the top 1% of adults (those with more than $1M in wealth) hold roughly 45% of all global private wealth, while the bottom 55% (under $10k) hold less than 2%.
+The headline finding: the top 1% of adults (those with more than USD 1M in wealth) hold roughly 45% of all global private wealth, while the bottom 55% (under USD 10k) hold less than 2%.
 
 ## Data
 
@@ -17,7 +17,7 @@ Global wealth pyramid by wealth band, 2010–2023. One row per band per year.
 | Column | Description |
 |--------|-------------|
 | `year` | Year of observation |
-| `wealth_band` | Wealth band label (under $10k, $10k–$100k, $100k–$1M, over $1M) |
+| `wealth_band` | Wealth band label (under USD 10k, USD 10k–100k, USD 100k–1M, over USD 1M) |
 | `lower_bound_usd` | Lower bound of the band in USD |
 | `upper_bound_usd` | Upper bound of the band in USD (empty for top band) |
 | `adults_millions` | Adults in this band (millions) |
@@ -35,9 +35,9 @@ Country-level wealth statistics for 20 major economies, 2023.
 | `country` | Country name |
 | `country_code` | ISO 3166-1 alpha-3 code |
 | `adults_millions` | Adult population (millions) |
-| `mean_wealth_usd` | Mean wealth per adult (USD) |
-| `median_wealth_usd` | Median wealth per adult (USD) |
-| `total_wealth_usd_billions` | Total household wealth (USD billions) |
+| `mean_wealth_usd` | Mean wealth per adult, in USD |
+| `median_wealth_usd` | Median wealth per adult, in USD |
+| `total_wealth_usd_billions` | Total household wealth, in USD billions |
 | `gini` | Wealth Gini coefficient (0–100; higher = more unequal) |
 
 ## Sources
