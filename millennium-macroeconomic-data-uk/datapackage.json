@@ -1,0 +1,266 @@
+{
+  "name": "millennium-macroeconomic-data-uk",
+  "title": "A Millennium of Macroeconomic Data for the UK",
+  "description": "Bank of England dataset covering UK macroeconomic history from the C13th (with benchmark estimates from 1086, the year of the Domesday Book) through 2016. Version 3.1. Includes GDP, wages, prices, interest rates, money and credit, trade, fiscal data, and more — covering over 130 variables in annual, quarterly, and monthly headline series.",
+  "homepage": "https://www.bankofengland.co.uk/statistics/research-datasets",
+  "version": "3.1.0",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "title": "Open Government Licence v3.0"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Bank of England Research Datasets",
+      "path": "https://www.bankofengland.co.uk/statistics/research-datasets",
+      "title": "A Millennium of Macroeconomic Data for the UK, Version 3.1 (Bank of England, updated 2025)"
+    }
+  ],
+  "contributors": [
+    {
+      "title": "Ryland Thomas",
+      "role": "author",
+      "email": "ryland.thomas@bankofengland.co.uk"
+    },
+    {
+      "title": "Nicholas Dimsdale",
+      "role": "author"
+    }
+  ],
+  "resources": [
+    {
+      "name": "annual",
+      "path": "data/annual.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Annual headline series (A1) covering 65 macroeconomic variables from 1086 to 2016. Long-format with one row per year-variable pair. Sections: National Accounts, Labour/Capital/Productivity, Wages and Prices, Financial Markets, Money and Credit, Fiscal, Trade.",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Calendar year"
+          },
+          {
+            "name": "variable_id",
+            "type": "string",
+            "description": "Machine-readable variable slug (e.g. 'real-uk-gdp-at-market-prices')"
+          },
+          {
+            "name": "variable",
+            "type": "string",
+            "description": "Full variable description from the original dataset"
+          },
+          {
+            "name": "section",
+            "type": "string",
+            "description": "Thematic section (e.g. 'National Accounts', 'Financial markets', 'Trade')"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "description": "Unit of measurement (e.g. '£mn, Chained Volume measure, 2013 prices')"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "Observed value in the stated unit"
+          }
+        ]
+      }
+    },
+    {
+      "name": "quarterly",
+      "path": "data/quarterly.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Quarterly headline series (Q1) covering 48 macroeconomic variables. Long-format with one row per period-variable pair. Period format: YYYY-Q1 through YYYY-Q4.",
+      "schema": {
+        "fields": [
+          {
+            "name": "period",
+            "type": "string",
+            "description": "Quarter identifier in YYYY-QN format (e.g. '1920-Q1')"
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Calendar year"
+          },
+          {
+            "name": "quarter",
+            "type": "integer",
+            "description": "Quarter number (1–4)"
+          },
+          {
+            "name": "variable_id",
+            "type": "string",
+            "description": "Machine-readable variable slug"
+          },
+          {
+            "name": "variable",
+            "type": "string",
+            "description": "Full variable description from the original dataset"
+          },
+          {
+            "name": "section",
+            "type": "string",
+            "description": "Thematic section"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "description": "Unit of measurement"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "Observed value in the stated unit"
+          }
+        ]
+      }
+    },
+    {
+      "name": "monthly",
+      "path": "data/monthly.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Monthly headline series (M1) covering 26 macroeconomic variables. Long-format with one row per period-variable pair. Period format: YYYY-MM.",
+      "schema": {
+        "fields": [
+          {
+            "name": "period",
+            "type": "string",
+            "description": "Month identifier in YYYY-MM format (e.g. '1920-01')"
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Calendar year"
+          },
+          {
+            "name": "month",
+            "type": "integer",
+            "description": "Month number (1–12)"
+          },
+          {
+            "name": "variable_id",
+            "type": "string",
+            "description": "Machine-readable variable slug"
+          },
+          {
+            "name": "variable",
+            "type": "string",
+            "description": "Full variable description from the original dataset"
+          },
+          {
+            "name": "section",
+            "type": "string",
+            "description": "Thematic section"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "description": "Unit of measurement"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": "Observed value in the stated unit"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "uk-gdp-long-run",
+      "title": "UK Real GDP, 1700–2016",
+      "resources": ["annual"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.variable_id === 'real-uk-gdp-at-market-prices-geographically-consistent'"}
+        ],
+        "mark": {"type": "line", "color": "#1f77b4"},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year"
+          },
+          "y": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Real UK GDP (£mn, 2013 prices)"
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "value", "type": "quantitative", "title": "GDP (£mn)", "format": ",.0f"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "uk-cpi-long-run",
+      "title": "UK Consumer Price Index, 1209–2016",
+      "resources": ["annual"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.variable_id === 'consumer-price-index'"}
+        ],
+        "mark": {"type": "line", "color": "#d62728"},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year"
+          },
+          "y": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Consumer Price Index (2015=100)"
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "value", "type": "quantitative", "title": "CPI", "format": ".2f"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "uk-bank-rate",
+      "title": "Bank of England Bank Rate, 1694–2016",
+      "resources": ["annual"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.variable_id === 'bank-rate'"}
+        ],
+        "mark": {"type": "line", "color": "#2ca02c"},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year"
+          },
+          "y": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Bank Rate (%)"
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "value", "type": "quantitative", "title": "Bank Rate (%)", "format": ".2f"}
+          ]
+        }
+      }
+    }
+  ]
+}
