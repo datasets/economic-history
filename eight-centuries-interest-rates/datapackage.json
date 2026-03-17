@@ -1,0 +1,193 @@
+{
+  "name": "eight-centuries-interest-rates",
+  "title": "Eight Centuries of Global Real Interest Rates",
+  "description": "Annual global real interest rates from 1311 to 2018, reconstructed from archival and primary sources by Paul Schmelzing (Bank of England Staff Working Paper No. 845, 2020). Covers 78% of advanced economy GDP and traces a long-run secular decline in real rates across successive monetary and fiscal regimes. Includes GDP-weighted headline global rates, safe-asset-provider rates, and country-level series for Italy, UK, Netherlands, Germany, France, United States, Spain, and Japan.",
+  "homepage": "https://www.bankofengland.co.uk/working-paper/2020/eight-centuries-of-global-real-interest-rates-r-g-and-the-suprasecular-decline-1311-2018",
+  "version": "2020",
+  "status": "structured",
+  "licenses": [
+    {
+      "name": "OGL-UK-3.0",
+      "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "title": "Open Government Licence v3.0"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Schmelzing (2020)",
+      "path": "https://www.bankofengland.co.uk/working-paper/2020/eight-centuries-of-global-real-interest-rates-r-g-and-the-suprasecular-decline-1311-2018",
+      "title": "Paul Schmelzing, 'Eight Centuries of Global Real Interest Rates, R-G, and the Suprasecular Decline, 1311–2018', Bank of England Staff Working Paper No. 845 (2020)"
+    }
+  ],
+  "resources": [
+    {
+      "name": "headline-rates",
+      "path": "data/headline-rates.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Annual global real interest rates, 1311–2018. Includes GDP-weighted global sovereign rates and safe-asset-provider rates, in both raw annual form and 7-year centred moving average. All rates are expressed in percent (%). Real rates are ex-post (realised inflation basis).",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Calendar year"
+          },
+          {
+            "name": "global_nominal_7y",
+            "type": "number",
+            "description": "Global sovereign nominal rate, 7-year centred average (%)"
+          },
+          {
+            "name": "global_inflation_7y",
+            "type": "number",
+            "description": "Global inflation, 7-year centred average (%)"
+          },
+          {
+            "name": "global_real_7y",
+            "type": "number",
+            "description": "Global real interest rate, 7-year centred average (%). Primary long-run trend series."
+          },
+          {
+            "name": "safe_nominal_7y",
+            "type": "number",
+            "description": "Safe-asset-provider sovereign nominal rate, 7-year centred average (%)"
+          },
+          {
+            "name": "safe_inflation_7y",
+            "type": "number",
+            "description": "Safe-asset-provider inflation, 7-year centred average (%)"
+          },
+          {
+            "name": "safe_real_7y",
+            "type": "number",
+            "description": "Safe-asset-provider real rate, 7-year centred average (%)"
+          },
+          {
+            "name": "global_nominal",
+            "type": "number",
+            "description": "Global sovereign nominal rate, annual (%)"
+          },
+          {
+            "name": "global_inflation",
+            "type": "number",
+            "description": "Global inflation, annual (%)"
+          },
+          {
+            "name": "global_real",
+            "type": "number",
+            "description": "Global real interest rate, annual (%). Ex-post real rate on a GDP-weighted basis."
+          },
+          {
+            "name": "safe_nominal",
+            "type": "number",
+            "description": "Safe-asset-provider sovereign nominal rate, annual (%)"
+          },
+          {
+            "name": "safe_inflation",
+            "type": "number",
+            "description": "Safe-asset-provider inflation, annual (%)"
+          },
+          {
+            "name": "safe_real",
+            "type": "number",
+            "description": "Safe-asset-provider real rate, annual (%)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "country-rates",
+      "path": "data/country-rates.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Country-level real interest rates (not averaged), 1314–2018. Long format: one row per country per year. Countries: Italy, UK, Netherlands, Germany, France, United States, Spain, Japan. Rates in percent (%).",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Calendar year"
+          },
+          {
+            "name": "country",
+            "type": "string",
+            "description": "Country name"
+          },
+          {
+            "name": "real_rate",
+            "type": "number",
+            "description": "Real interest rate, annual (%)"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "global-real-rate-trend",
+      "title": "Global Real Interest Rate, 1317–2018 (7-year average)",
+      "resources": ["headline-rates"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "transform": [
+          {"filter": "datum.global_real_7y !== null && datum.global_real_7y !== ''"}
+        ],
+        "mark": {"type": "line", "color": "#2c5f8a"},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "axis": {"format": "d"}
+          },
+          "y": {
+            "field": "global_real_7y",
+            "type": "quantitative",
+            "title": "Real Rate (%)",
+            "scale": {"zero": false}
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "global_real_7y", "type": "quantitative", "title": "Global Real Rate (7yr avg, %)", "format": ".2f"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "country-real-rates",
+      "title": "Country-Level Real Interest Rates, 1314–2018",
+      "resources": ["country-rates"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": {"type": "line", "opacity": 0.7},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "axis": {"format": "d"}
+          },
+          "y": {
+            "field": "real_rate",
+            "type": "quantitative",
+            "title": "Real Rate (%)",
+            "scale": {"zero": false}
+          },
+          "color": {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "real_rate", "type": "quantitative", "title": "Real Rate (%)", "format": ".2f"}
+          ]
+        }
+      }
+    }
+  ]
+}
