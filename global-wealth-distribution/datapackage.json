@@ -1,0 +1,210 @@
+{
+  "name": "global-wealth-distribution",
+  "title": "Global Wealth Distribution",
+  "description": "Distribution of wealth globally, drawn from the Credit Suisse Global Wealth Databook (2010–2022) and the UBS Global Wealth Report 2024 (2023 data). Covers the global wealth pyramid — how adults are distributed across four wealth bands (<$10k, $10k–$100k, $100k–$1M, >$1M) — and country-level statistics including mean wealth, median wealth, and total household wealth for 20 major economies.",
+  "homepage": "https://www.ubs.com/global/en/wealth-management/insights/chief-investment-office/life-goals/2024/global-wealth-report.html",
+  "version": "2024",
+  "status": "structured",
+  "licenses": [
+    {
+      "name": "ODC-PDDL",
+      "path": "https://opendatacommons.org/licenses/pddl/1-0/",
+      "title": "Open Data Commons Public Domain Dedication and License"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Credit Suisse Global Wealth Databook 2016",
+      "path": "http://publications.credit-suisse.com/tasks/render/file/index.cfm?fileid=AD6F2B43-B17B-345E-E20A1A254A3E24A5",
+      "title": "Credit Suisse Research Institute — Global Wealth Databook 2016"
+    },
+    {
+      "name": "UBS Global Wealth Report 2024",
+      "path": "https://www.ubs.com/global/en/wealth-management/insights/chief-investment-office/life-goals/2024/global-wealth-report.html",
+      "title": "UBS Global Wealth Report 2024 (successor to Credit Suisse Global Wealth Report)"
+    }
+  ],
+  "resources": [
+    {
+      "name": "wealth-distribution-global",
+      "path": "data/wealth-distribution-global.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Global wealth pyramid by wealth band, 2010–2023. Each row represents one wealth band for one year, showing the number of adults in that band, their share of the global adult population, the total wealth held, and its share of global private wealth.",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Year of observation"
+          },
+          {
+            "name": "wealth_band",
+            "type": "string",
+            "description": "Wealth band label (e.g. '<$10k', '$10k-$100k', '$100k-$1M', '>$1M')"
+          },
+          {
+            "name": "lower_bound_usd",
+            "type": "number",
+            "description": "Lower bound of the wealth band in USD (0 for the lowest band)"
+          },
+          {
+            "name": "upper_bound_usd",
+            "type": "number",
+            "description": "Upper bound of the wealth band in USD (empty for the top band)"
+          },
+          {
+            "name": "adults_millions",
+            "type": "number",
+            "description": "Number of adults in this wealth band (millions)"
+          },
+          {
+            "name": "adults_share_pct",
+            "type": "number",
+            "description": "Share of global adult population in this wealth band (%)"
+          },
+          {
+            "name": "wealth_usd_billions",
+            "type": "number",
+            "description": "Total wealth held by adults in this band (USD billions)"
+          },
+          {
+            "name": "wealth_share_pct",
+            "type": "number",
+            "description": "Share of global private wealth held by this band (%)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wealth-by-country",
+      "path": "data/wealth-by-country.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Country-level wealth statistics for 20 major economies, 2023. Includes mean and median wealth per adult, total household wealth, adult population, and the wealth Gini coefficient.",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "Year of observation"
+          },
+          {
+            "name": "country",
+            "type": "string",
+            "description": "Country name"
+          },
+          {
+            "name": "country_code",
+            "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code"
+          },
+          {
+            "name": "adults_millions",
+            "type": "number",
+            "description": "Adult population (millions)"
+          },
+          {
+            "name": "mean_wealth_usd",
+            "type": "number",
+            "description": "Mean wealth per adult (USD)"
+          },
+          {
+            "name": "median_wealth_usd",
+            "type": "number",
+            "description": "Median wealth per adult (USD)"
+          },
+          {
+            "name": "total_wealth_usd_billions",
+            "type": "number",
+            "description": "Total household wealth (USD billions)"
+          },
+          {
+            "name": "gini",
+            "type": "number",
+            "description": "Wealth Gini coefficient (0–100 scale; higher = more unequal)"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "wealth-pyramid-shares-over-time",
+      "title": "Global Wealth Shares by Band (2010–2023)",
+      "resources": ["wealth-distribution-global"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": {"type": "area"},
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "axis": {"format": "d"}
+          },
+          "y": {
+            "field": "wealth_share_pct",
+            "type": "quantitative",
+            "title": "Share of Global Wealth (%)",
+            "stack": "normalize"
+          },
+          "color": {
+            "field": "wealth_band",
+            "type": "nominal",
+            "title": "Wealth Band",
+            "sort": ["<$10k", "$10k-$100k", "$100k-$1M", ">$1M"]
+          },
+          "tooltip": [
+            {"field": "year", "type": "quantitative", "title": "Year"},
+            {"field": "wealth_band", "type": "nominal", "title": "Band"},
+            {"field": "wealth_share_pct", "type": "quantitative", "title": "Wealth Share (%)", "format": ".1f"},
+            {"field": "adults_share_pct", "type": "quantitative", "title": "Adults Share (%)", "format": ".1f"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "mean-vs-median-wealth-by-country",
+      "title": "Mean vs Median Wealth per Adult by Country (2023)",
+      "resources": ["wealth-by-country"],
+      "specType": "vega-lite",
+      "spec": {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "mark": {"type": "bar"},
+        "transform": [
+          {"fold": ["mean_wealth_usd", "median_wealth_usd"], "as": ["measure", "value"]}
+        ],
+        "encoding": {
+          "y": {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country",
+            "sort": "-x"
+          },
+          "x": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Wealth per Adult (USD)"
+          },
+          "color": {
+            "field": "measure",
+            "type": "nominal",
+            "title": "Measure",
+            "scale": {
+              "domain": ["mean_wealth_usd", "median_wealth_usd"],
+              "range": ["#4e79a7", "#f28e2b"]
+            }
+          },
+          "tooltip": [
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "mean_wealth_usd", "type": "quantitative", "title": "Mean (USD)", "format": ",.0f"},
+            {"field": "median_wealth_usd", "type": "quantitative", "title": "Median (USD)", "format": ",.0f"},
+            {"field": "gini", "type": "quantitative", "title": "Gini", "format": ".1f"}
+          ]
+        }
+      }
+    }
+  ]
+}
