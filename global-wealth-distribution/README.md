@@ -17,7 +17,7 @@ Global wealth pyramid by wealth band, 2010–2023. One row per band per year.
 | Column | Description |
 |--------|-------------|
 | `year` | Year of observation |
-| `wealth_band` | Wealth band label (`<$10k`, `$10k-$100k`, `$100k-$1M`, `>$1M`) |
+| `wealth_band` | Wealth band label (under $10k, $10k–$100k, $100k–$1M, over $1M) |
 | `lower_bound_usd` | Lower bound of the band in USD |
 | `upper_bound_usd` | Upper bound of the band in USD (empty for top band) |
 | `adults_millions` | Adults in this band (millions) |
