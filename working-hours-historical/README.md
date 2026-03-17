@@ -27,7 +27,7 @@ One row per country per benchmark year (180 rows total). Columns:
 
 ## Sources
 
-- Huberman, M. and Minns, C. (2007). *The times they are not changin': Days and hours of work in Old and New Worlds, 1870–2000*. European Review of Economic History, 11(1), 45–74. <https://doi.org/10.1016/j.eeh.2006.07.002>
+- Huberman, M. and Minns, C. (2007). *The times they are not changin': Days and hours of work in Old and New Worlds, 1870–2000*. European Review of Economic History, 11(1), 45–74. [https://doi.org/10.1016/j.eeh.2006.07.002](https://doi.org/10.1016/j.eeh.2006.07.002)
 
 ## Reproduce
 
