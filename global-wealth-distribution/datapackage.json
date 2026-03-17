@@ -1,7 +1,7 @@
 {
   "name": "global-wealth-distribution",
   "title": "Global Wealth Distribution",
-  "description": "Distribution of wealth globally, drawn from the Credit Suisse Global Wealth Databook (2010–2022) and the UBS Global Wealth Report 2024 (2023 data). Covers the global wealth pyramid — how adults are distributed across four wealth bands (<$10k, $10k–$100k, $100k–$1M, >$1M) — and country-level statistics including mean wealth, median wealth, and total household wealth for 20 major economies.",
+  "description": "Distribution of wealth globally, drawn from the Credit Suisse Global Wealth Databook (2010–2022) and the UBS Global Wealth Report 2024 (2023 data). Covers the global wealth pyramid — how adults are distributed across four wealth bands (under $10k, $10k–$100k, $100k–$1M, over $1M) — and country-level statistics including mean wealth, median wealth, and total household wealth for 20 major economies.",
   "homepage": "https://www.ubs.com/global/en/wealth-management/insights/chief-investment-office/life-goals/2024/global-wealth-report.html",
   "version": "2024",
   "status": "structured",
@@ -41,7 +41,7 @@
           {
             "name": "wealth_band",
             "type": "string",
-            "description": "Wealth band label (e.g. '<$10k', '$10k-$100k', '$100k-$1M', '>$1M')"
+            "description": "Wealth band label (e.g. under $10k, $10k-$100k, $100k-$1M, over $1M)"
           },
           {
             "name": "lower_bound_usd",
